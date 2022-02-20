@@ -17,19 +17,23 @@
                     <h2 class = "fw-bold text-center">Iniciar sesión</h2>
                 </div> 
 
+                <div class = "alert alert-danger" role = "alert"  v-if = "error !== null">
+                  {{error}}
+                </div>
+
                 <!-- Campo de correo electronico -->
                 <div class = "mb-3 mt-1">
                     <label for = "email-usuario" class = "form-label">Correo electrónico:</label>
                     <input type = "email" class = "form-control form-control-lg" id = "email-usuario"
                     title = "Ingresa tu correo electrónico" 
-                    v-model = "usuario.email" required>
+                    v-model = "datosForm.email" required>
                 </div>                
       
                 <!-- Campo de contraseña -->
                 <div class = "mb-4">
                     <label for = "clave-iniciar" class = "form-label">Contraseña:</label>
                     <input type = "password" class = "form-control form-control-lg" id = "clave-iniciar" 
-                    v-model = "usuario.clave" required>
+                    v-model = "datosForm.clave" required>
                 </div>
       
                 <div class = "d-flex justify-content-between align-items-center">
@@ -57,7 +61,7 @@
               <div class = "text-center">
                 <hr/>
                 <button class = "btn btn-lg btn-block text-black shadow-sm bg-white rounded-3 px-4"
-                type = "submit" @click = "ingresarGoogle">
+                type = "submit" @click = "procesarGoogle">
                 <img src = "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" 
                 alt = "Google" class = "me-2" width = "32">
                 Inicia sesión con Google</button>   
@@ -74,32 +78,32 @@
 
       </section>
 
-{{error}}
-
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
 
-export default {
-    data() {
-        return {
-            usuario: {
-                email: '',
-                clave: ''
-            }
+export default 
+{
+    setup() 
+    {
+        
+        const datosForm = ref({})
+        const store = useStore()
+
+        const procesarFormulario = () => {
+            store.dispatch('ingresoUsuario', datosForm.value)
         }
-    },
-    methods: {
-      ...mapActions(['ingresoUsuario', 'ingresarGoogle']),
-      procesarFormulario() {
-        this.ingresoUsuario({email: this.usuario.email, clave: this.usuario.clave})
-        /*this.usuario.email = ''
-        this.usuario.clave = ''*/
-      }
-    },
-    computed: {
-      ...mapState(['error'])
+
+        const procesarGoogle = () => {
+            store.dispatch('ingresarGoogle')
+        }
+
+        const error = computed(() => store.state.error)
+
+        return { datosForm, procesarFormulario, procesarGoogle, error }
+
     }
 }
 </script>

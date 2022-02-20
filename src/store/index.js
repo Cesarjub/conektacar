@@ -3,21 +3,25 @@ import {auth, firebase, db} from '../Firebase'
 import router from '../router'
 
 export default createStore({
-  state: {
+  state: 
+  {
     usuario: null,
     error: null
   },
   mutations: 
   {
-    setUsuario(state, usuario) {
+    setUsuario(state, usuario) 
+    {
       state.usuario = usuario
     },
-    setError(state, error) {
+    setError(state, error) 
+    {
       state.error = error
     }
   },
   actions: 
   {
+    
     async crearNuevoUsuario({commit}, usuario) 
     {
         try 
@@ -27,12 +31,18 @@ export default createStore({
           console.log(respuesta)
 
           const usuarioCreado = {
-            email: respuesta.user.email,
-            uid: respuesta.user.uid
+            name: usuario.nombre,
+            email: respuesta.user.email
           }
 
-          commit('setUsuario', usuarioCreado)
-          
+          db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + respuesta.user.uid)
+          .set(usuarioCreado)
+          //db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + respuesta.user.uid + '/customData')
+          //.child('Fecha de Nacimiento').set(usuario.nacimiento)  
+          db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + respuesta.user.uid + '/customData')
+          .child('status').set(" ") 
+
+          commit('setUsuario', Object.assign({uid: respuesta.user.uid}, usuarioCreado ))
           await router.push('/')
 
         } catch (error) {
@@ -42,8 +52,9 @@ export default createStore({
     },
     async ingresoUsuario({commit}, usuario) 
     {
-      
-        try {
+        try 
+        {
+
           const respuesta = await auth.signInWithEmailAndPassword(usuario.email, usuario.clave)
 
           console.log(respuesta)
@@ -61,19 +72,27 @@ export default createStore({
           commit('setError', error)
         }
     },
-    async ingresarGoogle({commit}) {
-      try {
+    async ingresarGoogle({commit}) 
+    {
+      try 
+      {
         const provider = new firebase.auth.GoogleAuthProvider()
         const respuesta = await auth.signInWithPopup(provider)
 
         console.log(respuesta)
 
         const usuarioIniciado = {
-          email: respuesta.user.email,        
-          uid: respuesta.user.uid
+          email: respuesta.user.email,    
+          name: respuesta.user.displayName
         }  
 
-        commit('setUsuario', usuarioIniciado)
+        db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + respuesta.user.uid).set(usuarioIniciado)
+        //db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + respuesta.user.uid + '/customData')
+        //.child('Fecha de Nacimiento').set(usuario.nacimiento)  
+        db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + respuesta.user.uid + '/customData')
+        .child('status').set(" ") 
+
+        commit('setUsuario', Object.assign({uid: respuesta.user.uid}, usuarioIniciado ))
         await router.push("/")
 
       } catch (error) 
@@ -82,31 +101,25 @@ export default createStore({
         commit('setError', error)
       }
     },
-    async prueba({commit, state}, usuario) 
+
+     async verificarTelefono({commit})
     {
-      
-      console.log(state.usuario.uid)
 
-      try 
+
+     try
       {
+        const response = await fetch('https://twilio-verify-api.herokuapp.com/number?phonenumber=529381510496')
+        const data = await response.json()
 
-        await db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + state.usuario.uid).set({
-          name: usuario.nombre,
-          email: state.usuario.email,
-          phone: usuario.telefono        
+        console.log(data)
 
-        })
-
-        await db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + state.usuario.uid + '/customData')
-        .child('Fecha de Nacimiento').set(usuario.nacimiento)  
-
-        await db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + state.usuario.uid + '/customData')
-        .child('status').set(" ")  
-
-      } catch (error) 
-      {
-        console.log(error)  
       }
+      catch(error)
+      {
+        console.log("error:" + error)
+      }
+
+      console.log('Adentroooo')
 
     },
     async cerrarSesion({commit}) 
@@ -120,6 +133,13 @@ export default createStore({
         if (user) 
         {
           commit("setUsuario", user)
+
+          if(router.isReady() && (router.currentRoute.value.path === '/login/ingresar' 
+            || router.currentRoute.value.path === '/login/registro'))
+          {
+            router.push('/')
+          }
+
         } else {
           commit("setUsuario", null)
         }

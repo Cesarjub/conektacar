@@ -1,7 +1,6 @@
 
 <template>
 
-
     <header class = "container p-1">
         <nav class = "navbar navbar-expand-lg navbar-light">
             <div class = "container-fluid"> 
@@ -19,7 +18,7 @@
                     
                     <!--  -->
                     <li class = "nav-item dropdown me-2" v-if = "existeUsuario">
-                        <a href = "#" class = "nav-link dropdown-toggle">{{usuario.email}}</a>
+                        <a href = "#" class = "nav-link dropdown-toggle">Hola, {{ usuario.email }}</a>
                         <ul class = "dropdown-menu mb-3">
                             <li><router-link to = "/perfil" class = "dropdown-item">Perfil</router-link></li>
                             <li><label class = "dropdown-item" @click = "cerrarSesion">Cerrar sesión</label></li>
@@ -28,31 +27,38 @@
                     
                     </ul>
                         
-                    <form>
+                    <div>
                         <router-link to = "/login/ingresar" class = "btn btn-primary shadow-none ms-2" v-if = "!existeUsuario">Acceder</router-link>    
-                    </form>
+                    </div>
 
                     </div>
                 </div>
             </nav>
     </header>
 
-<!--{{existeUsuario}} {{usuario}}-->
-
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from 'vuex'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default 
 {
-    methods: 
+    setup() 
     {
-        ...mapActions(['cerrarSesion', 'autenticarUsuario'])
-    },
-    computed: {
-        ...mapState(['usuario']),
-        ...mapGetters(['existeUsuario'])
+
+        const store = useStore()   
+
+        const cerrarSesion = () => {
+            store.dispatch('cerrarSesion')
+        }   
+
+        const existeUsuario = computed(() => store.getters.existeUsuario)                     
+
+        const usuario = computed(() => store.state.usuario)      
+
+        return { cerrarSesion, existeUsuario, usuario }
+
     }
 }
 </script>
@@ -66,7 +72,7 @@ export default
     font-weight: 600;
 }
 
-.navbar .container-fluid form .btn.btn-primary 
+.navbar .container-fluid div .btn.btn-primary 
 {
     text-transform: capitalize;
     width: 100px;
@@ -81,7 +87,7 @@ export default
     transition: .5s;
 }
 
-.navbar .container-fluid form .btn.btn-primary:hover 
+.navbar .container-fluid div .btn.btn-primary:hover 
 {
     background-color: #023e8a;
     color: #fff;

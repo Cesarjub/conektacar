@@ -1,20 +1,21 @@
 
 <template>
-   
-    <Acceder v-if = "$route.params.op ==  'ingresar'" />
-    <Registro v-if = "$route.params.op == 'registro'" />
 
+    <SignIn v-if = "$route.params.op ===  'ingresar'" />
+    <SignUp v-if = "$route.params.op === 'registro'" />
+
+ 
 </template>
 
 <script>
-import Acceder from '../components/Login/Acceder'
-import Registro from '../components/Login/Registro'
+import SignIn from '../components/LogIn/SignIn'
+import SignUp from '../components/LogIn/SignUp'
 
 export default {
     name: 'Login',
     components: {
-        Acceder,
-        Registro
+        SignIn,
+        SignUp
     }
 }
 </script>

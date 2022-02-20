@@ -11,10 +11,21 @@
             </div>
             
             <div class = "col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-              <form @submit.prevent = "crearNuevoUsuario({email: usuario.email, clave: usuario.claveUno})">
+              <form @submit.prevent = "procesarFormulario">
 
                 <div class = "divider d-flex align-items-center my-3 mt-3 mb-3">
                     <h2 class = "fw-bold text-center">Crear cuenta</h2>
+                </div> 
+
+                <div class = "alert alert-danger" role = "alert"  v-if = "error !== null">
+                  {{error}}
+                </div>
+
+                <!-- Campo de nombre -->
+                <div class = "mb-1">
+                    <label for = "nombre-usuario" class = "form-label">Nombre completo:</label>
+                    <input type = "text" class = "form-control form-control-lg" id = "nombre-usuario" 
+                    v-model = "datosForm.nombre" title = "Introduzca su nombre" required>
                 </div> 
 
                 <!-- Campo de correo electronico -->
@@ -22,22 +33,15 @@
                     <label for = "email-usuario" class = "form-label">Correo electrónico:</label>
                     <input type = "email" class = "form-control form-control-lg" id = "email-usuario"
                     title = "Ingresa tu correo electrónico" 
-                    v-model = "usuario.email" required>
+                    v-model = "datosForm.email" required>
                 </div>                
       
                 <!-- Campo de contraseña -->
                 <div class = "mb-2">
                     <label for = "clave-iniciar" class = "form-label">Contraseña: <span class = "fst-italic">(Mínimo 6 caracteres)</span></label>
                     <input type = "password" class = "form-control form-control-lg" id = "clave-iniciar" pattern = ".{6,}" title = "La contraseña debe de ser mínimo de 6 caracteres."
-                    v-model = "usuario.claveUno" required>
-                </div>
-
-                <!-- Campo de confirmar contraseña -->
-                <div class = "mb-1">
-                    <label for = "clave-confirmar" class = "form-label">Confirmar contraseña:</label>
-                    <input type = "password" class = "form-control form-control-lg" id = "clave-confirmar" 
-                    v-model = "usuario.claveDos" title = "Las contraseñas deben coincidir." required>
-                </div>                
+                    v-model = "datosForm.clave" required>
+                </div>            
   
                 <!-- Crear cuenta -->
                 <div class = "text-center text-lg-start mt-2 pt-2">
@@ -51,7 +55,7 @@
               <div class = "text-center">
                 <hr/>
                 <button class = "btn btn-lg btn-block text-black shadow-sm bg-white rounded-3 px-4"
-                type = "submit" @click = "ingresarGoogle">
+                type = "submit" @click = "procesarGoogle">
                 <img src = "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" 
                 alt = "Google" class = "me-2" width = "32">
                 Inicia sesión con Google</button>   
@@ -68,36 +72,31 @@
 
       </section>
 
-<!--<form @submit.prevent = "crearNuevoUsuario({email: usuario.email, clave: usuario.claveUno})">
-  <button :disabled = "!desactivar" type="submit" class="btn btn-primary">Submit</button>
-</form>-->
-
-{{error}}
-
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
-//mapstate es para ver el
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
 
-export default {
-  data() {
-        return {
-            usuario: {
-                email: '',
-                claveUno: '',
-                claveDos: ''
-            }
+export default 
+{
+    setup() 
+    {
+
+        const datosForm = ref({})
+        const store = useStore()   
+
+        const procesarFormulario = () => {
+            store.dispatch('crearNuevoUsuario', datosForm.value)
         }
-  },
-  methods: {
-    ...mapActions(['crearNuevoUsuario', 'ingresarGoogle'])
-  },
-  computed: {
-    ...mapState(['error']),
-    desactivar() {
-      return this.usuario.claveUno.trim() !== '' && this.usuario.claveUno.length > 5
+
+        const procesarGoogle = () => {
+            store.dispatch('ingresarGoogle')
+        }
+
+        const error = computed(() => store.state.error)      
+
+        return { datosForm, procesarFormulario, procesarGoogle, error }      
     }
-  }
 }
 </script>

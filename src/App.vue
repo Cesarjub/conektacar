@@ -1,25 +1,28 @@
 <template>
 
-  <Navbar/>
-  <router-view/>
+  <Navbar />
+  <router-view />
   
 </template>
 
 <script>
 import Navbar from './components/Template/Navbar'
-import {mapActions} from 'vuex'
+import { onBeforeMount } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   components: {
     Navbar
   },
-  mounted() 
+  setup()
   {
-    this.autenticarUsuario()
-  },
-  methods: 
-  {
-    ...mapActions(['autenticarUsuario'])
+    
+    const store = useStore()
+
+    onBeforeMount(() => {
+      store.dispatch('autenticarUsuario')
+    })
+
   }
 }
 </script>

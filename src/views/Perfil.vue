@@ -1,16 +1,14 @@
 
 <template>
 
-<FormPerfil />
+Hola
 
 </template>
 
 <script>
-import FormPerfil from '../components/Perfil/FormPerfil'
 
-export default {
-    components: {
-        FormPerfil
-    }
+export default
+{
+
 }
 </script>
