@@ -1,7 +1,7 @@
 
 <template>
 
-    <section class = "container">
+    <section class = "container margin-top">
         <div class = "container-fluid h-custom">
           <div class = "row d-flex justify-content-center align-items-center h-100">
             
@@ -17,29 +17,27 @@
                     <h2 class = "fw-bold text-center">Crear cuenta</h2>
                 </div> 
 
-                <div class = "alert alert-danger" role = "alert"  v-if = "error !== null">
-                  {{error}}
-                </div>
+                <AlertDanger v-if = "error !== null" :alerta = "error" />
 
                 <!-- Campo de nombre -->
                 <div class = "mb-1">
                     <label for = "nombre-usuario" class = "form-label">Nombre completo:</label>
                     <input type = "text" class = "form-control form-control-lg" id = "nombre-usuario" 
-                    v-model = "datosForm.nombre" title = "Introduzca su nombre" required>
+                    v-model = "datosForm.nombre" pattern = "^[a-zA-Z ]+$" title = "Introduzca su nombre completo." required>
                 </div> 
 
                 <!-- Campo de correo electronico -->
                 <div class = "mb-2 mt-1">
                     <label for = "email-usuario" class = "form-label">Correo electrónico:</label>
                     <input type = "email" class = "form-control form-control-lg" id = "email-usuario"
-                    title = "Ingresa tu correo electrónico" 
+                    title = "Ingresa tu correo electrónico." 
                     v-model = "datosForm.email" required>
                 </div>                
       
                 <!-- Campo de contraseña -->
                 <div class = "mb-2">
                     <label for = "clave-iniciar" class = "form-label">Contraseña: <span class = "fst-italic">(Mínimo 6 caracteres)</span></label>
-                    <input type = "password" class = "form-control form-control-lg" id = "clave-iniciar" pattern = ".{6,}" title = "La contraseña debe de ser mínimo de 6 caracteres."
+                    <input type = "password" class = "form-control form-control-lg" id = "clave-iniciar" pattern = ".{6,}" title = "La contraseña debe contener un mínimo de 6 caracteres."
                     v-model = "datosForm.clave" required>
                 </div>            
   
@@ -51,10 +49,15 @@
 
               </form>
 
+              <div class = "row px-3 mt-2 mb-2">
+                <div class = "line-form"></div> <small class = "text-muted or-form text-center">O</small>
+                <div class = "line-form"></div>
+              </div>
+
               <!-- Ingresar con Google -->
               <div class = "text-center">
-                <hr/>
-                <button class = "btn btn-lg btn-block text-black shadow-sm bg-white rounded-3 px-4"
+                
+                <button class = "btn btn-lg btn-block text-black shadow-sm bg-white rounded-3 px-4 w-100"
                 type = "submit" @click = "procesarGoogle">
                 <img src = "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" 
                 alt = "Google" class = "me-2" width = "32">
@@ -75,11 +78,15 @@
 </template>
 
 <script>
+import AlertDanger from '../Alerts/AlertDanger'
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default 
 {
+    components: {
+      AlertDanger
+    },
     setup() 
     {
 
@@ -87,11 +94,11 @@ export default
         const store = useStore()   
 
         const procesarFormulario = () => {
-            store.dispatch('crearNuevoUsuario', datosForm.value)
+          store.dispatch('crearNuevoUsuario', datosForm.value)
         }
 
         const procesarGoogle = () => {
-            store.dispatch('ingresarGoogle')
+          store.dispatch('ingresarGoogle')
         }
 
         const error = computed(() => store.state.error)      
@@ -100,3 +107,18 @@ export default
     }
 }
 </script>
+
+<style>
+.line-form 
+{
+    height: 1px;
+    width: 45%;
+    background-color: #E0E0E0;
+    margin-top: 10px
+}
+
+.or-form 
+{
+    width: 10%
+}
+</style>

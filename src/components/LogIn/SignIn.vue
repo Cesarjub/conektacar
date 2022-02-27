@@ -1,7 +1,7 @@
 
 <template>
 
-    <section class = "container">
+    <section class = "container margin-top">
         <div class = "container-fluid h-custom">
           <div class = "row d-flex justify-content-center align-items-center h-100">
             
@@ -17,9 +17,7 @@
                     <h2 class = "fw-bold text-center">Iniciar sesión</h2>
                 </div> 
 
-                <div class = "alert alert-danger" role = "alert"  v-if = "error !== null">
-                  {{error}}
-                </div>
+                <AlertDanger v-if = "error !== null" :alerta = "error" />
 
                 <!-- Campo de correo electronico -->
                 <div class = "mb-3 mt-1">
@@ -57,10 +55,15 @@
 
               </form>
 
+              <div class = "row px-3 mt-2 mb-2">
+                <div class = "line-form"></div> <small class = "text-muted or-form text-center">O</small>
+                <div class = "line-form"></div>
+              </div>
+
               <!-- Ingresar con Google -->
               <div class = "text-center">
-                <hr/>
-                <button class = "btn btn-lg btn-block text-black shadow-sm bg-white rounded-3 px-4"
+
+                <button class = "btn btn-lg btn-block text-black shadow-sm bg-white rounded-3 px-4 w-100"
                 type = "submit" @click = "procesarGoogle">
                 <img src = "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" 
                 alt = "Google" class = "me-2" width = "32">
@@ -81,11 +84,15 @@
 </template>
 
 <script>
+import AlertDanger from '../Alerts/AlertDanger'
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default 
 {
+    components: {
+      AlertDanger
+    },
     setup() 
     {
         
@@ -93,11 +100,11 @@ export default
         const store = useStore()
 
         const procesarFormulario = () => {
-            store.dispatch('ingresoUsuario', datosForm.value)
+          store.dispatch('ingresoUsuario', datosForm.value)
         }
 
         const procesarGoogle = () => {
-            store.dispatch('ingresarGoogle')
+          store.dispatch('ingresarGoogle')
         }
 
         const error = computed(() => store.state.error)

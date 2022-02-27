@@ -1,18 +1,22 @@
+
 <template>
 
   <Navbar />
+  <BtnGoUp />
   <router-view />
   
 </template>
 
 <script>
 import Navbar from './components/Template/Navbar'
+import BtnGoUp from './components/Template/BtnGoUp'
 import { onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    BtnGoUp
   },
   setup()
   {
@@ -28,4 +32,9 @@ export default {
 </script>
 
 <style>
+
+.margin-top {
+  margin-top: 75px;
+}
+
 </style>

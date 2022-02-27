@@ -4,7 +4,6 @@
     <SignIn v-if = "$route.params.op ===  'ingresar'" />
     <SignUp v-if = "$route.params.op === 'registro'" />
 
- 
 </template>
 
 <script>

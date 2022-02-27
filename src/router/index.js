@@ -6,29 +6,55 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { title: 'Inicio' }
   },
   {
     path: '/login/:op',
     name: 'LogIn',
-    component: () => import(/* webpackChunkName: "Login" */ '../views/LogIn.vue')
+    component: () => import(/* webpackChunkName: "Login" */ '../views/LogIn.vue'),
+    meta: { title: 'Inicia sesión' }
   },
   {
     path: "/login",
     redirect: "/login/ingresar"
   },
   {
+    path: '/verificar/:op',
+    name: 'Verificar',
+    component: () => import(/* webpackChunkName: "VerifyNumber" */ '../views/VerifyNumber.vue'),
+    meta: { requiresAuth: true, title: 'Verificación' }
+  },
+  {
+    path: "/verificar",
+    redirect: "/verificar/usuario"
+  },
+  {
     path: '/perfil',
     name: 'Perfil',
     component: () => import(/* webpackChunkName: "Perfil" */ '../views/Perfil.vue')
-    //,meta: { requiresAuth: true }
+    ,meta: { requiresAuth: true, title: 'Perfil' }
+  },
+  {
+    path: '/ayuda',
+    name: 'CentroAyuda',
+    component: () => import(/* webpackChunkName: "Centro de Ayuda" */ '../views/CentroAyuda.vue'),
+    meta: { title: 'Centro de ayuda' }
+  },
+  {
+    path: '/conductores/nuevo',
+    name: 'Conductores',
+    component: () => import(/* webpackChunkName: "Registro de conductores" */ '../views/RegistroConductor.vue')
+    ,meta: { requiresAuth: true, title: 'Conductores' }
   }
 ]
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
 
 //Verificacion de rutas protegidas
 router.beforeEach(async (to, from, next) => 
@@ -49,6 +75,14 @@ router.beforeEach(async (to, from, next) =>
     next()
   }
 
+})
+
+
+//Cambio de titulo de la pestaña
+router.beforeEach((to, from, next) => 
+{
+  document.title = to.meta.title
+  next()
 })
 
 export default router
