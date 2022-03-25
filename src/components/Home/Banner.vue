@@ -15,16 +15,37 @@
           <div class = "card-body">
             <h3 class = "text-center mt-2 mb-4">¿A dónde iremos hoy?</h3>
 
+<form @submit.prevent = "procesarFormulario">
             <div class = "signup mt-3"> 
-              <input type = "text" class = "form-control" placeholder = "Origen"> 
-              <input type = "text" class = "form-control" placeholder = "Destino">
-              <input type = "date" class = "form-control"> 
-              <input type = "text" class = "form-control" placeholder = "Pasajeros"> 
+
+              <!-- Input autocompletado -->
+              <GMapAutocomplete                    
+                class = "form-control form-control-lg"
+                @place_changed = "setOrigen"
+                :required = "true"
+                placeholder = "Origen"
+              >
+              </GMapAutocomplete>            
+              
+              <!-- Input autocompletado -->
+              <GMapAutocomplete                    
+                class = "form-control form-control-lg"
+                @place_changed = "setDestino"
+                :required = "true"
+                placeholder = "Destino"
+              >
+              </GMapAutocomplete>       
+
+              <input type = "date" :min = "fechaHoy" v-model = "ubicacionBusqueda.fecha" class = "form-control" required> 
+              <!--<input type = "text" class = "form-control" placeholder = "Pasajeros">-->
             </div>
             
             <div class = "mt-3"> 
               <button class = "btn btn-lg btn-primary btn-block shadow-sm">Buscar un viaje</button> 
             </div>
+
+</form>
+          
           </div>
         </div>
 
@@ -46,8 +67,43 @@
 </template>
 
 <script>
-export default {
-    
+import { getDatosViaje } from '/src/Composables/getDatosViaje.js'
+import { computed, ref } from 'vue'
+import router from '/src/router'
+
+export default 
+{
+  setup() 
+  {
+    const tiempoTranscurrido = Date.now()
+    const hoy = new Date(tiempoTranscurrido)
+
+    const ubicacionBusqueda = ref({}) 
+
+    const { getCiudadViaje } = getDatosViaje()
+
+    const setOrigen = async(ciudad) => 
+    {
+      ubicacionBusqueda.value.ciudadOrigen = await getCiudadViaje(ciudad.geometry.location.lat(), ciudad.geometry.location.lng())
+      console.log(ubicacionBusqueda.value.ciudadOrigen)
+    }     
+
+    const setDestino = async(ciudad) => 
+    {
+      ubicacionBusqueda.value.ciudadDestino = await getCiudadViaje(ciudad.geometry.location.lat(), ciudad.geometry.location.lng())
+      console.log(ubicacionBusqueda.value.ciudadDestino)
+    }     
+
+    const procesarFormulario = async() => 
+    {
+      //ubicacionBusqueda.value.ciudadDestino = await getCiudadViaje(ciudad.geometry.location.lat(), ciudad.geometry.location.lng())
+      router.push({ path: "/viajes/busqueda", query: { origen: ubicacionBusqueda.value.ciudadOrigen, destino: ubicacionBusqueda.value.ciudadDestino, fecha: ubicacionBusqueda.value.fecha }})
+    }    
+
+    const fechaHoy  = computed(() =>  hoy.toISOString().split('T')[0] )
+  
+    return { fechaHoy, ubicacionBusqueda, setDestino, setOrigen, procesarFormulario }
+  }    
 }
 </script>
 

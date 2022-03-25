@@ -14,7 +14,7 @@
                 <div class = "collapse navbar-collapse" id = "navbarNav">
                     <ul class = "navbar-nav ms-auto">
                         <li class = "nav-item"> <router-link to = "/" class = "nav-link seleccion">Inicio</router-link> </li>
-                        <li class = "nav-item"> <a class = "nav-link seleccion" href = "#">Otro</a> </li>
+                        <li class = "nav-item"> <router-link to = "/viajes/nuevo"  class = "nav-link seleccion" href = "#">Nuevo viaje</router-link> </li>
                     
                     <!--  -->
                     <li class = "nav-item dropdown me-2" v-if = "existeUsuario">
@@ -22,6 +22,7 @@
                         <ul class = "dropdown-menu mb-3">
                             <li><router-link to = "/perfil" class = "dropdown-item">Perfil</router-link></li>
                             <li><router-link to = "/conductores/nuevo" class = "dropdown-item">Ser conductor</router-link></li>
+                            <li><router-link to = "/usuarios/preferencias" class = "dropdown-item">Mis preferencias</router-link></li>
                             <li><label class = "dropdown-item" @click = "cerrarSesion">Cerrar sesión</label></li>
                         </ul>
                     </li>                    

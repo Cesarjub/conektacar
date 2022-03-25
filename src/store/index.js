@@ -2,6 +2,9 @@ import { createStore } from 'vuex'
 import { auth, firebase, db } from '../Firebase'
 import router from '../router'
 import { useImagen } from  '../Composables/useImagen'
+import { getDatos } from '../Composables/getDatos'
+import { setViaje } from '../Composables/setViaje'
+import { getDatosViaje } from '/src/Composables/getDatosViaje.js'
 
 export default createStore({
   state: 
@@ -10,7 +13,9 @@ export default createStore({
     telefono: null,
     error: null,
     preguntasFrecuentes: [],
-    preguntasFrecuentesDestacadas: []
+    preguntasFrecuentesDestacadas: [],
+    viajes: [],
+    viajesBusqueda: [],
   },
   mutations: 
   {
@@ -47,6 +52,14 @@ export default createStore({
     setPreguntasFrecuentesDestacadas(state, pregunta)
     {
       state.preguntasFrecuentesDestacadas = pregunta
+    },
+    setViajes(state, viaje)
+    {
+      state.viajes = viaje
+    },
+    setViajesBusqueda(state, viaje)
+    {
+      state.viajesBusqueda = viaje
     }
   },
   actions: 
@@ -236,23 +249,23 @@ export default createStore({
     try 
     {
 
-        const referencia = db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/data/Preguntas frecuentes')
+      const referencia = db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/data/Preguntas frecuentes')
 
-        await referencia.once('value', function(snapshot) 
+      await referencia.once('value', function(snapshot) 
+      {
+        var data = snapshot.val()
+        //commit('setPreguntasFrecuentes', data)  
+
+        const arrayDatos = []
+
+        for (let id in data)
         {
-          var data = snapshot.val()
-          //commit('setPreguntasFrecuentes', data)  
-
-          const arrayDatos = []
-
-          for (let id in data)
-          {
-            arrayDatos.push(data[id])
-          }
+          arrayDatos.push(data[id])
+        }
           
-          console.log(arrayDatos)
-          commit('setPreguntasFrecuentes', arrayDatos)  
-        }) 
+        console.log(arrayDatos)
+        commit('setPreguntasFrecuentes', arrayDatos)  
+      }) 
 
     } catch (error) 
     {
@@ -293,7 +306,7 @@ export default createStore({
         ['foto de perfil']: await subirImagen(conductor.fotoPerfil, state.usuario.uid + 'fcf'),
         ['dni fontral']: await subirImagen(conductor.cedulaFrontal, state.usuario.uid + 'fdcf'),
         ['dni posterior']: await subirImagen(conductor.cedulaPosterior, state.usuario.uid + 'fdcp'),
-        ['licencia frontal']: await subirImagen(conductor.licenciaFrente, state.usuario.uid + 'flcf'),
+        ['licencia frontal']: await subirImagen(conductor.licenciaFrontal, state.usuario.uid + 'flcf'),
         ['licencia posterior']: await subirImagen(conductor.licenciaPosterior, state.usuario.uid + 'flcp'),
         status: 'pendiente'
       }
@@ -311,6 +324,10 @@ export default createStore({
       db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/data/Solicitudes/' + state.usuario.uid + '/Vehiculos asignados/' + state.usuario.uid)
       .set(datosCarro) 
 
+      // Guardar foto de perfil members
+      db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + state.usuario.uid)
+      .child('photoURL').set(datosConductor['foto de perfil'])
+
       commit('setError', null)
       alert('Correctoooo')
       router.push('/')
@@ -321,7 +338,89 @@ export default createStore({
       commit('setError', error)   
     }
 
-  }
+  },
+
+  async publicarViajeNormal({commit, state}, viaje)
+  {
+    const { getDatosFirebase } = getDatos()
+    const { setViajeNormal  } = setViaje()
+
+    const getUsuario = await getDatosFirebase('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + state.usuario.uid)
+
+    const getConductor = await getDatosFirebase('projects/proj_xxBUmVeZH1i7CKg2Uph27C/data/Solicitudes/' + state.usuario.uid)
+
+    console.log(getUsuario)
+    console.log(getConductor)
+
+    const datosUsuario = {
+      ['User id']: state.usuario.uid,
+      ['Chofer nombre']: getUsuario.name,
+      ['foto de perfil']: getConductor['foto de perfil']
+    }
+
+    await setViajeNormal(viaje, datosUsuario)
+
+    router.push('/')
+
+  },
+
+  ////
+  async getViajes({commit})
+  {
+    try 
+    {
+
+      const { getCiudadViaje } = getDatosViaje()
+
+      const referencia = db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/data/Publicar viaje')
+
+       referencia.once('value', async function (snapshot) 
+      {
+        var data = snapshot.val()
+
+        const arrayDatos = []
+        let varia = 0
+
+        for (let id in data)
+        {
+
+          arrayDatos.push(data[id])
+          arrayDatos[varia].ciudadOrigen = await getCiudadViaje(data[id]['Origen latitude'], data[id]['Origen longitude'])
+          arrayDatos[varia].ciudadDestino = await getCiudadViaje(data[id]['Destino latitude'], data[id]['Destino longitude'])
+
+          varia++
+        }
+   
+        console.log(arrayDatos) 
+        commit('setViajes', arrayDatos)  
+
+      }) 
+
+    } catch (error) 
+    {
+      console.log(error)
+    }
+  },
+
+  getViajesBusqueda({commit, state}, busqueda)
+  {
+
+    const arrayDatos = []
+
+    for (let id in state.viajes)
+    {
+
+      if(state.viajes[id]['Fecha salida'] === busqueda.busquedaFecha 
+        && state.viajes[id]['ciudadOrigen'] === busqueda.busquedaOrigen 
+        && state.viajes[id]['ciudadDestino'] === busqueda.busquedaDestino)
+      {
+        arrayDatos.push(state.viajes[id])
+      }
+
+    }
+
+    commit('setViajesBusqueda', arrayDatos)  
+  },
 
   },
   getters: 

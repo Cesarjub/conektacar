@@ -46,6 +46,24 @@ const routes = [
     name: 'Conductores',
     component: () => import(/* webpackChunkName: "Registro de conductores" */ '../views/RegistroConductor.vue')
     ,meta: { requiresAuth: true, title: 'Conductores' }
+  },
+  {
+    path: '/viajes/nuevo',
+    name: 'Viajes',
+    component: () => import(/* webpackChunkName: "Viajes" */ '../views/Viajes.vue')
+    ,meta: { requiresAuth: true, title: 'Viajes' }
+  },
+  {
+    path: '/viajes/busqueda',
+    name: 'BuscarViajes',
+    component: () => import(/* webpackChunkName: "Centro de Ayuda" */ '../views/BuscarViajes.vue'),
+    meta: { title: 'Viajes' }
+  },
+  {
+    path: '/usuarios/preferencias',
+    name: 'Preferencias',
+    component: () => import(/* webpackChunkName: "Preferencias" */ '../views/PreferenciasUsuario.vue')
+    ,meta: { requiresAuth: true, title: 'Preferencias de usuarios' }
   }
 ]
 

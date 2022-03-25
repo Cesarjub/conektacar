@@ -1,7 +1,6 @@
 
 <template>
 
-
     <section class = "margin-top">
 
     <!-- Formulario para verificar numero -->
