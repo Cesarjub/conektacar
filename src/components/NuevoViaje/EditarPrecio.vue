@@ -3,7 +3,7 @@
 
     <section class = "margin-top" v-if = "siguienteForm">
 
-    <!-- Formulario para  -->
+    <!-- Modificar precio de viaje  -->
         <div class = "container w-100 mb-lg-6">
             <div class = "row align-items-stretch">
 
@@ -24,7 +24,7 @@
                                   
                             </div>
 
-                            <!-- Enviar -->
+                            <!-- Enviar formulario -->
                             <div class = "row justify-content-center d-grid mt-4">
                                 <div class = "col">
                                     <button type = "submit" class = "btn btn-primary btn-lg shadow-sm px-4">Continuar</button>

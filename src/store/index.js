@@ -324,7 +324,7 @@ export default createStore({
       db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/data/Solicitudes/' + state.usuario.uid + '/Vehiculos asignados/' + state.usuario.uid)
       .set(datosCarro) 
 
-      // Guardar foto de perfil members
+      // Guardar foto de perfil en members
       db.ref('projects/proj_xxBUmVeZH1i7CKg2Uph27C/apps/app_fXEypfETn4hzKcy9uyfNhF/members/' + state.usuario.uid)
       .child('photoURL').set(datosConductor['foto de perfil'])
 

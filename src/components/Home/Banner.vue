@@ -6,7 +6,7 @@
 
     <div class = "container" data-aos = "zoom-in" data-aos-delay = "100">
 
-    <!-- Formulario -->
+    <!-- Formulario para consultar viajes -->
     <div class = "row ">
       <div class = "col-xl-5 col-lg-6 pt-3 pt-lg-0 order-lg-1 d-flex flex-column">
         <!-- <h1 class = "text-capitalize">1111</h1> -->
@@ -15,7 +15,7 @@
           <div class = "card-body">
             <h3 class = "text-center mt-2 mb-4">¿A dónde iremos hoy?</h3>
 
-<form @submit.prevent = "procesarFormulario">
+      <form @submit.prevent = "procesarFormulario">
             <div class = "signup mt-3"> 
 
               <!-- Input autocompletado -->
@@ -44,7 +44,7 @@
               <button class = "btn btn-lg btn-primary btn-block shadow-sm">Buscar un viaje</button> 
             </div>
 
-</form>
+      </form>
           
           </div>
         </div>

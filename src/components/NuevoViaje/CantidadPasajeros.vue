@@ -3,7 +3,7 @@
 
     <section class = "margin-top" v-if = "siguienteForm">
 
-    <!-- Formulario para  -->
+    <!-- Seleccionar cantidad de pasajeros -->
         <div class = "container w-100 mb-lg-6">
             <div class = "row align-items-stretch">
 
@@ -22,10 +22,8 @@
                                 </div>
 
                                 <div class = "col-3 col-md-3">
-                                <h1 class = "text-center">{{ datosViajes.cantidadPasajeros }}</h1> 
-                                    <!--<input type = "text" pattern = "[1-4]{1}" size = "1" title = "Puede agregar un máximo de 4 pasajeros."
-                                    class = "form-control form-control-lg text-center" v-model = "datosViajes.cantidadPasajeros" required>
-                                --></div>
+                                    <h1 class = "text-center">{{ datosViajes.cantidadPasajeros }}</h1> 
+                                </div>
 
                                 <div class = "col-1 col-md-1">
                                     <button class = "btn btn-dark btn-lg btn-circle px-4 fs-2" type = "button" :disabled = "desactivarBotonAumentar" @click = "aumentarPasajeros"> + </button>
@@ -33,7 +31,7 @@
   
                             </div>
 
-                            <!-- Enviar -->
+                            <!-- Enviar formulario -->
                             <div class = "row justify-content-center d-grid mt-5">
                                 <div class = "col mt-3">
                                     <button type = "submit" class = "btn btn-primary btn-lg shadow-sm px-4">Continuar</button>

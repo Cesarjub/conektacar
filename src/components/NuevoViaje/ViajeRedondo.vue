@@ -3,7 +3,7 @@
         
     <section class = "margin-top" v-if = "mostrarForm">
 
-    <!-- Formulario para  -->
+    <!-- Seleccionar opcion para viaje redondo  -->
         <div class = "container w-100 mb-lg-6">
             <div class = "row align-items-stretch">
 

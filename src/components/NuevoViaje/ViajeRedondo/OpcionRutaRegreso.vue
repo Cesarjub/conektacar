@@ -2,7 +2,7 @@
         
     <section class = "margin-top" v-if = "mostrarForm">
 
-    <!-- Formulario para  -->
+    <!-- Seleccionar opcion de ruta de regreso  -->
         <div class = "container w-100 mb-lg-6">
             <div class = "row align-items-stretch">
 

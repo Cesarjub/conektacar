@@ -3,7 +3,7 @@
         
     <section class = "margin-top" v-if = "siguienteForm">
 
-    <!-- Formulario para  -->
+    <!-- Confirmar ruta de regreso  -->
         <div class = "container w-100 mb-lg-6">
             <div class = "row align-items-stretch">
 
@@ -13,7 +13,7 @@
                           
                     <div class = "row justify-content-between mt-5 mb-3">
 
-                        <!-- Campo de foto del carro -->
+                        <!-- Resumen de ruta de viaje -->
                         <div class = "form-group col-sm-6 flex-column d-flex"> 
                             <h2 class = "fw-bold mb-4">Confirma tu ruta</h2> 
 
@@ -57,14 +57,14 @@
                        
                         </div>
 
-                    <!-- Campo de foto de la placa -->
+                    <!-- Mapa -->
                     <div class = "col-sm-6 ">  
 
-                    <MapaRutaSencilla v-if = "!datosViajes.agregarParada || datosViajes.opcionRegreso === 'op2'" :ubicacion = "{latOrigen: datosViajes.latDestino, lngOrigen: datosViajes.lngDestino, latDestino: datosViajes.latOrigen, lngDestino: datosViajes.lngOrigen}"  />
-                    <MapaRutaParada v-if = "datosViajes.agregarParada && datosViajes.opcionRegreso === 'op1'" :ubicacion = "{latOrigen: datosViajes.latDestino, lngOrigen: datosViajes.lngDestino, latDestino: datosViajes.latOrigen, lngDestino: datosViajes.lngOrigen, latParada: datosViajes.latParada, lngParada: datosViajes.lngParada}" />
-                    <MapaRutaParada v-if = "datosViajes.agregarParada && datosViajes.opcionRegreso === 'op3'" :ubicacion = "{latOrigen: datosViajes.latDestino, lngOrigen: datosViajes.lngDestino, latDestino: datosViajes.latOrigen, lngDestino: datosViajes.lngOrigen, latParada: datosViajes.latNuevaParada, lngParada: datosViajes.lngNuevaParada}" />
+                        <MapaRutaSencilla v-if = "!datosViajes.agregarParada || datosViajes.opcionRegreso === 'op2'" :ubicacion = "{latOrigen: datosViajes.latDestino, lngOrigen: datosViajes.lngDestino, latDestino: datosViajes.latOrigen, lngDestino: datosViajes.lngOrigen}"  />
+                        <MapaRutaParada v-if = "datosViajes.agregarParada && datosViajes.opcionRegreso === 'op1'" :ubicacion = "{latOrigen: datosViajes.latDestino, lngOrigen: datosViajes.lngDestino, latDestino: datosViajes.latOrigen, lngDestino: datosViajes.lngOrigen, latParada: datosViajes.latParada, lngParada: datosViajes.lngParada}" />
+                        <MapaRutaParada v-if = "datosViajes.agregarParada && datosViajes.opcionRegreso === 'op3'" :ubicacion = "{latOrigen: datosViajes.latDestino, lngOrigen: datosViajes.lngDestino, latDestino: datosViajes.latOrigen, lngDestino: datosViajes.lngOrigen, latParada: datosViajes.latNuevaParada, lngParada: datosViajes.lngNuevaParada}" />
 
-                </div>  
+                    </div>  
 
             </div>
                     
@@ -82,8 +82,8 @@
 import { getDistancia } from '/src/Composables/getDistancia.js'
 import { ref, onMounted } from 'vue'
 import FechaRegreso from './FechaRegreso'
-import MapaRutaSencilla from '../MapaRutaSencilla'
-import MapaRutaParada from '../MapaRutaParada'
+import MapaRutaSencilla from '../Mapas/MapaRutaSencilla'
+import MapaRutaParada from '../Mapas/MapaRutaParada'
 
 export default 
 {

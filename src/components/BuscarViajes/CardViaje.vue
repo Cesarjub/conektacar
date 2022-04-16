@@ -1,6 +1,7 @@
 
 <template>
         
+<!-- Tarjeta con informacion del viaje -->
 <div class = "container mb-2">
     <div class = "row justify-content-center">
 
