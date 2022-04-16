@@ -59,14 +59,6 @@ export const getDatosViaje = () =>
         const date = new Date(fecha)
 
         return moment(date.getHours(), "h").format("HH") + ":" + moment(date.getMinutes(), "mm").format("mm")
-        //return date.getHours() + ":" + date.getMinutes() //+ ":" + date.getSeconds()
-
-        /*console.log("Date: "+date.getDate()+
-        "/"+(date.getMonth()+1)+
-        "/"+date.getFullYear()+
-        " "+date.getHours()+
-        ":"+date.getMinutes()+
-        ":"+date.getSeconds());*/
     }
 
     const getCiudadViaje = async(lat, lng) =>
@@ -83,7 +75,7 @@ export const getDatosViaje = () =>
             let ciudad = ""
             const address = direccionObtenida.results[0].address_components
 
-            //recorremos todos los elementos de address
+            //Obtener nombre de la ciudad de direccion
             address.map(async function(ubicacion, p)
             {
 

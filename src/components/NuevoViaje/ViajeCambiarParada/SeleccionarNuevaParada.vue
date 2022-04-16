@@ -3,7 +3,7 @@
 
     <section class = "margin-top" v-if = "siguienteForm">
 
-    <!-- Formulario para  -->
+    <!-- Seleccionar direccion de nueva parada  -->
         <div class = "container w-100 mb-lg-6">
             <div class = "row align-items-stretch">
 
@@ -13,25 +13,25 @@
                           
                     <div class = "row justify-content-between mt-5 mb-3">
 
-                        <!-- Campo de foto del carro -->
+                        <!-- -->
                         <div class = "form-group col-sm-6 mt-4 flex-column d-flex"> 
                             <h2 class = "fw-bold">¿Dónde te gustaría dejar a los pasajeros?</h2>
         
-        <!-- Input autocompletado -->
-        <GMapAutocomplete                    
-            class = "form-control form-control-lg mt-2 mb-4"
-            @place_changed = "setPlace"
-            :required = "true"
-            :value = "direccion"
-            ref = "myMarker"
-        >
-        </GMapAutocomplete>
+                            <!-- Input autocompletado -->
+                            <GMapAutocomplete                    
+                                class = "form-control form-control-lg mt-2 mb-4"
+                                @place_changed = "setPlace"
+                                :required = "true"
+                                :value = "direccion"
+                                ref = "myMarker"
+                            >
+                            </GMapAutocomplete>
 
                             <!--<input type = "text" class = "form-control form-control-lg mt-2 mb-4" > -->
                         <button type = "submit" class = "btn btn-primary col-sm-4 btn-lg shadow-sm">Continuar</button>
                         </div>
 
-                    <!-- Campo de foto de la placa -->
+                    <!-- Mapa -->
                     <div class = "col-sm-6 ">  
 
                         <Mapa :ubicacion = "ubicacionParada" :detectarUbicacion = "detectarUbicacion" />
@@ -40,8 +40,7 @@
                     
                 </div>
 
-    
-                      </form>
+                </form>
     
             </div>
         </div>
@@ -55,7 +54,7 @@
 
 <script>
 import RutaViajeRedondo from '../ViajeRedondo/RutaViajeRedondo'
-import Mapa from '../Mapa'
+import Mapa from '../Mapas/Mapa'
 import { ref, computed } from 'vue'
 
 export default 

@@ -3,14 +3,11 @@
 
     <section class = "margin-top" v-if = "siguienteForm">
 
-    <!-- Formulario para  -->
+    <!-- Seleccionar direccion de salida  -->
         <div class = "container w-100 mb-lg-6">
             <div class = "row align-items-stretch">
 
                     <div class = "d-block d-sm-block d-md-none mt-5"></div>
-                    <!--<div class = "text-center mt-5 mb-4">
-                        <h2 class = "fw-bold">¿Dónde te gustaría recoger a los pasajeros?</h2>
-                    </div>-->
 
                       <form @submit.prevent = "procesarFormulario">
                           
@@ -20,21 +17,21 @@
                         <div class = "form-group col-sm-6 mt-4 flex-column d-flex"> 
                             <h2 class = "fw-bold">¿Dónde te gustaría recoger a los pasajeros?</h2>
         
-        <!-- Input autocompletado -->
-        <GMapAutocomplete                    
-            class = "form-control form-control-lg mt-2 mb-4"
-            @place_changed = "setPlace"
-            :required = "true"
-            :value = "direccion"
-            ref = "myMarker"
-        >
-        </GMapAutocomplete>
+                            <!-- Input autocompletado -->
+                            <GMapAutocomplete                    
+                                class = "form-control form-control-lg mt-2 mb-4"
+                                @place_changed = "setPlace"
+                                :required = "true"
+                                :value = "direccion"
+                                ref = "myMarker"
+                            >
+                            </GMapAutocomplete>
 
                             <!--<input type = "text" class = "form-control form-control-lg mt-2 mb-4" > -->
                         <button type = "submit" class = "btn btn-primary col-sm-4 btn-lg shadow-sm">Continuar</button>
                         </div>
 
-                    <!-- Campo de foto de la placa -->
+                    <!-- Mapa -->
                     <div class = "col-sm-6 ">  
 
                         <Mapa :ubicacion = "ubicacionSalida" :detectarUbicacion = "detectarUbicacion" />
@@ -43,14 +40,7 @@
                     
                 </div>
 
-                            <!-- Enviar 
-                            <div class = "row justify-content-start d-grid mt-4">
-                                <div class = "col">
-                                    <button type = "submit" class = "btn btn-primary btn-lg shadow-sm px-4">Continuar</button>
-                                </div>             
-                            </div>    -->
-    
-                      </form>
+                </form>
     
             </div>
         </div>
@@ -64,7 +54,7 @@
 
 <script>
 import ViajeDestino from './ViajeDestino'
-import Mapa from './Mapa'
+import Mapa from './Mapas/Mapa'
 import { ref, computed } from 'vue'
 
 export default 

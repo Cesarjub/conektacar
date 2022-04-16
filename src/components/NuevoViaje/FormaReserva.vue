@@ -3,7 +3,7 @@
         
     <section class = "margin-top" v-if = "siguienteForm">
 
-    <!-- Formulario para  -->
+    <!-- Seleccionar opcion de modo de reserva  -->
         <div class = "container w-100 mb-lg-6">
             <div class = "row align-items-stretch">
 

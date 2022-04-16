@@ -3,12 +3,12 @@
         
     <section class = "margin-top">
 
-    <!-- Formulario para  -->
+        <!-- Consulta de viajes  -->
         <div class = "container w-100 mb-lg-6">
             <div class = "row align-items-stretch">
-Viaje: {{ datosBusqueda.busquedaOrigen = $route.query.origen }} 
--> {{ datosBusqueda.busquedaDestino = $route.query.destino }} 
-// {{ datosBusqueda.busquedaFecha = $route.query.fecha }}
+                Viaje: {{ datosBusqueda.busquedaOrigen = $route.query.origen }} 
+                -> {{ datosBusqueda.busquedaDestino = $route.query.destino }} 
+                // {{ datosBusqueda.busquedaFecha = $route.query.fecha }}
                     <div class = "d-block d-sm-block d-md-none mt-5"></div>
                     <div class = "text-center mt-5 mb-4">
                         <h2 class = "fw-bold">...</h2>
@@ -20,7 +20,7 @@ Viaje: {{ datosBusqueda.busquedaOrigen = $route.query.origen }}
         </div>
     </section>    
 
-{{datosViajes.horaLlegada }}
+{{ datosViajes.horaLlegada }}
 <div class = "d-none"> {{ viajes }} </div>
 
 <!--{{datosViajes}}-->
@@ -60,7 +60,7 @@ export default
 
             store.state.viajesBusqueda.map( function(dato, index)
             {
-alert("cargado")
+
                 /*if(dato['Hora llegada'])
                 {
                     dato['Hora llegada'] = getHoraViaje(dato['Hora llegada'])

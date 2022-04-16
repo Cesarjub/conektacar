@@ -3,7 +3,7 @@
         
     <section class = "margin-top" v-if = "mostrarForm">
 
-    <!-- Formulario para  -->
+    <!-- Agregar parada  -->
         <div class = "container w-100 mb-lg-6">
             <div class = "row align-items-stretch">
 
@@ -32,7 +32,7 @@
                                   
                             </div>
 
-                            <!-- Enviar -->
+                            <!-- Enviar formulario -->
                             <div class = "row justify-content-center d-grid mt-4">
                                 <div class = "col">
                                     <button type = "submit" class = "btn btn-primary btn-lg shadow-sm px-4">No en este viaje</button>
@@ -91,7 +91,6 @@ export default
             irAgregarParada.value = true
             mostrarForm.value = false
             props.datosViajes.agregarParada = true
-            //alert("pulsado")
         }
 
         return { procesarFormulario, siguienteForm, agregarParada, irAgregarParada, mostrarForm }

@@ -25,13 +25,13 @@ export const getDistancia = () =>
             document.getElementById('map'), options)
 
         // Locations of landmarks
-        const dakota = {lat: ubicacion.latOrigen, lng: ubicacion.lngOrigen}
-        const frick = {lat: ubicacion.latDestino, lng: ubicacion.lngDestino}
-        // The markers for The Dakota and The Frick Collection
-        var mk1 = new google.maps.Marker({position: dakota, map: map.value})
-        var mk2 = new google.maps.Marker({position: frick, map: map.value})
+        const origen = {lat: ubicacion.latOrigen, lng: ubicacion.lngOrigen}
+        const destino = {lat: ubicacion.latDestino, lng: ubicacion.lngDestino}
+        // 
+        var mk1 = new google.maps.Marker({position: origen, map: map.value})
+        var mk2 = new google.maps.Marker({position: destino, map: map.value})
       
-        // Calculate and display the distance between markers
+        // Distancia entre dos ciudades
         var distance = haversine_distance(mk1, mk2)
         distanciaTotal.distancia = distance.toFixed(2)
         console.log( "Distance between markersssss: " + distance.toFixed(2) + " mi.")
@@ -39,22 +39,22 @@ export const getDistancia = () =>
         ////////////////////////////////////////////////
         let directionsService = new google.maps.DirectionsService()
         let directionsRenderer = new google.maps.DirectionsRenderer()
-        directionsRenderer.setMap(map.value) // Existing map object displays directions
-        // Create route from existing points used for markers
+        directionsRenderer.setMap(map.value) 
+
         const route = {
-            origin: dakota,
-            destination: frick,
+            origin: origen,
+            destination: destino,
             travelMode: 'DRIVING'
         }
 
         await directionsService.route(route,
-            function(response, status) { // anonymous function to capture directions
+            function(response, status) { 
             if (status !== 'OK') {
                 alert('Directions request failed due to ' + status)
                 return
             } else {
-                directionsRenderer.setDirections(response) // Add route to the map
-                var directionsData = response.routes[0].legs[0] // Get data about the mapped route
+                directionsRenderer.setDirections(response) 
+                var directionsData = response.routes[0].legs[0] 
                 if (!directionsData) {
                 alert('Directions request failed')
                 return;
