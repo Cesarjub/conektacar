@@ -64,6 +64,12 @@ const routes = [
     name: 'Preferencias',
     component: () => import(/* webpackChunkName: "Preferencias" */ '../views/PreferenciasUsuario.vue')
     ,meta: { requiresAuth: true, title: 'Preferencias de usuarios' }
+  },
+  {
+    path: '/prueba',
+    name: 'Prueba',
+    component: () => import(/* webpackChunkName: "Preferencias" */ '../views/Prueba.vue')
+    ,meta: { requiresAuth: false, title: 'Prueba' }
   }
 ]
 
