@@ -1,3 +1,7 @@
+# 🚗 Conektacar
+
+Aplicación web para solicitar viajes compartidos con otras personas.
+
 ## Project setup
 ```
 npm install
@@ -8,29 +12,7 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Vista previa:
 
-# Dependencias instaladas
+---
 
-### Vue CLI
-
-```
-npm install -g @vue/cli
-```
-
-### Firebase 
-
-```
-npm i firebase@8.7.1
-```
-
-### Bootstrap
-```
-npm install bootstrap
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
